@@ -1,0 +1,8 @@
+tablero.mover("Cc3", "b")
+tablero.mover("d5", "n")
+tablero.mover("Cxd5", "b")
+tablero.mover("Ch6", "n")
+tablero.mover("Cxe7", "b")
+tablero.mover("Cg4", "n")
+tablero.mover("Cxc8", "b")
+tablero.mover("Cxh2", "n")

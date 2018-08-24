@@ -1,0 +1,14 @@
+from clases.piezas.pieza import Pieza
+
+class King(Pieza):
+	__tipo = "K"
+	
+	@property
+	def tipo(self):
+		return self.__tipo
+
+	def __repr__(self):
+		return "K" + self.color
+
+	def __init__(self):
+		super().__init__()

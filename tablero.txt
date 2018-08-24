@@ -1,0 +1,1 @@
+[[Tn, Cn, An, Qn, Kn, An, Cn, Tn], [Pn, Pn, Pn, Pn, Pn, Pn, Pn, Pn], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [Pb, Pb, Pb, Pb, Pb, Pb, Pb, Pb], [Tb, Cb, Ab, Qb, Kb, Ab, Cb, Tb]]
