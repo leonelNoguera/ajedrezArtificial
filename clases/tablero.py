@@ -104,7 +104,7 @@ class Tablero:
 		i = 0
 		failed = 0
 		__matrizColumnas = ["a", "b", "c", "d", "e", "f", "g", "h"]
-		__matrizInicialesPiezas = ["", "T", "C", "A"]
+		__matrizInicialesPiezas = ["", "T", "C", "A", "K", "Q"]
 		while i < cantidad:
 			__f = random.randint(1, 8)
 			__x = random.randint(0, 1)
@@ -123,7 +123,7 @@ class Tablero:
 			__c = random.randint(0, 7)
 			__c = __matrizColumnas[__c]
 
-			__p = random.randint(0, 3)
+			__p = random.randint(0, 5)
 			__p = __matrizInicialesPiezas[__p]
 
 			__movimiento = __p + __x + __c + str(__f)
@@ -141,8 +141,8 @@ class Tablero:
 				failed += 1
 				print("Failed: " + __movimiento)
 
-				if failed == 100000:
-					print("	Aviso: 100000 fallas\n" + self.__repr__())
+				if failed == 1000:
+					print("	Aviso: 1000 fallas\n" + self.__repr__())
 					input()
 					failed = 0
 	@classmethod

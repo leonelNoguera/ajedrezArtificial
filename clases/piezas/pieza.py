@@ -20,5 +20,5 @@ class Pieza(Casillero):
 		return "  "
 
 	def __init__(self):
+		super().__init__()
 		self.color = ""
-		self.colorCasillero = ""

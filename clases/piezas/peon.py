@@ -7,6 +7,10 @@ class Peon(Pieza):
 	def tipo(self):
 		return self.__tipo
 
+	@tipo.setter
+	def tipo(self, value):
+		self.__tipo = value
+
 	def __repr__(self):
 		return "P" + self.color
 
