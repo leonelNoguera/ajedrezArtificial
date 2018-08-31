@@ -17,7 +17,7 @@ class Pieza(Casillero):
 		self.__colorPieza = value
 	
 	def __repr__(self):
-		return "  "
+		return self.tipo + self.color
 
 	def __init__(self):
 		super().__init__()

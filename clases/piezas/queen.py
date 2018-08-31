@@ -7,8 +7,8 @@ class Queen(Pieza):
 	def tipo(self):
 		return self.__tipo
 	
-	def __repr__(self):
-		return "Q" + self.color
+	#def __repr__(self):
+		#return "Q" + self.color
 
 	def __init__(self):
 		super().__init__()

@@ -1,10 +1,10 @@
 import random
-from clases.piezas.peon import Peon
+from clases.piezas.pawn import Pawn
 from clases.piezas.king import King
 from clases.piezas.queen import Queen
-from clases.piezas.alfil import Alfil
-from clases.piezas.caballo import Caballo
-from clases.piezas.torre import Torre
+from clases.piezas.bishop import Bishop
+from clases.piezas.knight import Knight
+from clases.piezas.rook import Rook
 from clases.casillero import Casillero
 
 class Reglamento:
@@ -21,7 +21,7 @@ class Reglamento:
 	@classmethod
 	def esCaptura(self, __movimiento, __nombreMetodo):
 		retorno = False
-		if __nombreMetodo == "moverPeon" and __movimiento[0] == "x":
+		if __nombreMetodo == "moverPeon" and __movimiento[1] == "x": # Ejemplo: dxe5
 			retorno = True
 		else:
 			if (__nombreMetodo == "moverTorre" or __nombreMetodo == "moverCaballo" or __nombreMetodo == "moverAlfil" or __nombreMetodo == "moveKing" or __nombreMetodo == "moveQueen") and __movimiento[1] == "x":
@@ -34,8 +34,9 @@ class Reglamento:
 
 		if __nombreMetodo == "moverPeon":
 			if self.esCaptura(__movimiento, __nombreMetodo):
-				if __movimiento[1] in self.__matrizColumnas and int(__movimiento[2]) >= 1 and int(__movimiento[2]) <= 8:
-					retorno = "12"
+				if __movimiento[2] in self.__matrizColumnas and int(__movimiento[3]) >= 1 and int(__movimiento[3]) <= 8:
+					retorno = "23"
+					print("Line 39.\nMovimiento = " + __movimiento)
 			else:
 				if __movimiento[0] in self.__matrizColumnas and int(__movimiento[1]) >= 1 and int(__movimiento[1]) <= 8:
 					retorno = "01"
@@ -56,40 +57,52 @@ class Reglamento:
 		if bool(retornoAux):
 			__d = str(self.__matrizFilas.index(int(__movimiento[int(retornoAux[1])])))
 			__d += str(self.__matrizColumnas.index(__movimiento[int(retornoAux[0])]))
+		print("Line 60.\n__d = " + __d)
 		return __d
 
 	@classmethod
-	def esCapturable(self, __movimiento, __jugador, __d, matrizTablero):
+	def esCapturable(self, __jugador, __d, matrizTablero):
 		retorno = False
-		if __jugador == "b":
-			if matrizTablero[int(__d[0])][int(__d[1])].tipo != "c" and matrizTablero[int(__d[0])][int(__d[1])].color == "n":
+		if __jugador == "w":
+			if matrizTablero[int(__d[0])][int(__d[1])].tipo != "c" and matrizTablero[int(__d[0])][int(__d[1])].color == "b":
 				retorno = True
 		else:
-			if matrizTablero[int(__d[0])][int(__d[1])].tipo != "c" and matrizTablero[int(__d[0])][int(__d[1])].color == "b":		
+			if matrizTablero[int(__d[0])][int(__d[1])].tipo != "c" and matrizTablero[int(__d[0])][int(__d[1])].color == "w":		
 				retorno = True
 		return retorno
 
 	@classmethod
 	def capturarConPeon(self, __movimiento, __jugador, __d, matrizTablero):
 		retorno = False
-		
-		if __jugador == "b":
-			if (int(__d[1]) - 1) > -1 and (int(__d[0]) + 1) < 8:
-				if matrizTablero[int(__d[0]) + 1][int(__d[1]) - 1].tipo == "P" and matrizTablero[int(__d[0]) + 1][int(__d[1]) - 1].color == "b":
-					retorno = str(int(__d[0]) + 1) + str(int(__d[1]) - 1) + " " + __d
-				else:
-					if (int(__d[1]) + 1) < 8 and (int(__d[0]) + 1) < 8:
-						if matrizTablero[int(__d[0]) + 1][int(__d[1]) + 1].tipo == "P" and matrizTablero[int(__d[0]) + 1][int(__d[1]) + 1].color == "b":
-							retorno = str(int(__d[0]) + 1) + str(int(__d[1]) + 1) + " " + __d				
+		print("Line 77.")
+		# Ejemplo: dxe5
+		c = self.__matrizColumnas.index(__movimiento[0])
+		print("La columna de origen es: " + str(c))
+		if __jugador == "w":
+			#if __movimiento == "xa7":
+				#print("Revisando: " + str(int(__d[0]) + 1) + str(int(__d[1]) - 1))
+
+			if (int(__d[0]) + 1) < 8:
+				print("Revisando en: " + str(int(__d[0]) + 1) + str(c))
+				#if matrizTablero[int(__d[0]) + 1][int(__d[1]) - 1].tipo == "P" and matrizTablero[int(__d[0]) + 1][int(__d[1]) - 1].color == "w":
+				if matrizTablero[int(__d[0]) + 1][c].tipo == "P" and matrizTablero[int(__d[0]) + 1][c].color == "w":
+					retorno = str(int(__d[0]) + 1) + str(c) + " " + __d
+				#else:
+			#if (int(__d[1]) + 1) < 8 and (int(__d[0]) + 1) < 8:
+				#print("Revisando en: " + str(int(__d[0]) + 1) + str(int(__d[1]) + 1))
+				#if matrizTablero[int(__d[0]) + 1][int(__d[1]) + 1].tipo == "P" and matrizTablero[int(__d[0]) + 1][int(__d[1]) + 1].color == "w":
+					#retorno = str(int(__d[0]) + 1) + str(int(__d[1]) + 1) + " " + __d				
 		else:
-			if matrizTablero[int(__d[0])][int(__d[1])].tipo != "c" and matrizTablero[int(__d[0])][int(__d[1])].color == "b":
-				if (int(__d[0]) - 1) > -1 and (int(__d[1]) + 1) < 8:
-					if matrizTablero[int(__d[0]) - 1][int(__d[1]) + 1].tipo == "P" and matrizTablero[int(__d[0]) - 1][int(__d[1]) + 1].color == "n":
-							retorno = str(int(__d[0]) - 1) + str(int(__d[1]) + 1) + " " + __d
-					else:
-						if (int(__d[1]) - 1) != -1 and (int(__d[0]) - 1) != -1:
-							if matrizTablero[int(__d[0]) - 1][int(__d[1]) - 1].tipo == "P" and matrizTablero[int(__d[0]) - 1][int(__d[1]) - 1].color == "n":
-								retorno = str(int(__d[0]) - 1) + str(int(__d[1]) - 1) + " " + __d
+			#if matrizTablero[int(__d[0])][int(__d[1])].tipo != "c" and matrizTablero[int(__d[0])][int(__d[1])].color == "w":
+				
+			if (int(__d[0]) - 1) > -1:
+				print("Revisando en: " + str(int(__d[0]) - 1) + str(c))
+				if matrizTablero[int(__d[0]) - 1][c].tipo == "P" and matrizTablero[int(__d[0]) - 1][c].color == "b":
+						retorno = str(int(__d[0]) - 1) + str(c) + " " + __d
+				#else:
+			#if (int(__d[0]) - 1) != -1:
+				#if matrizTablero[int(__d[0]) - 1][c].tipo == "P" and matrizTablero[int(__d[0]) - 1][c].color == "b":
+					#retorno = str(int(__d[0]) - 1) + str(c) + " " + __d
 
 		return retorno
 
@@ -98,6 +111,7 @@ class Reglamento:
 		retorno = False
 		
 		if __nombreMetodo == "moverPeon":
+			print("Line 107.")
 			retorno = self.capturarConPeon(__movimiento, __jugador, __d, matrizTablero)
 		else:
 			if __nombreMetodo == "moverTorre":
@@ -305,37 +319,58 @@ class Reglamento:
 	def accesibleParaCaballo(self, __d, __jugador, matrizTablero):
 		retorno = False
 
+		#print("Revisando en: " + str((int(__d[0]) + 2)) + str((int(__d[1]) + 1)) + "\nTipo: " + matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) + 1)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) + 2)) + str((int(__d[1]) - 1)) + "\nTipo: " + matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) - 1)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) - 2)) + str((int(__d[1]) + 1)) + "\nTipo: " + matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) + 1)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) - 2)) + str((int(__d[1]) - 1)) + "\nTipo: " + matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) + 1)) + str((int(__d[1]) + 2)) + "\nTipo: " + matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) + 2)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) + 1)) + str((int(__d[1]) - 2)) + "\nTipo: " + matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) - 2)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) - 1)) + str((int(__d[1]) + 2)) + "\nTipo: " + matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) + 2)].tipo)
+		#print("Revisando en: " + str((int(__d[0]) - 1)) + str((int(__d[1]) - 2)) + "\nTipo: " + matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) - 2)].tipo)
+
+		#matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) - 1)] = Queen()
+		#matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)] = Queen()
+		#matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) - 2)] = Queen()
+		#matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) - 2)] = Queen()
+
 		if ((int(__d[0]) + 2) <= 7 and (int(__d[1]) + 1) <= 7):
-			if (matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) + 1)].tipo == "C" and matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) + 1)].color == __jugador):
+			if (matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) + 1)].tipo == "N" and matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) + 1)].color == __jugador):
 				retorno = str((int(__d[0]) + 2)) + str((int(__d[1]) + 1))
-		else:
-			if ((int(__d[0]) + 2) <= 7 and (int(__d[1]) - 1) >= 0):
-				if (matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) - 1)].tipo == "C" and matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) - 1)].color == __jugador):
-					retorno = str((int(__d[0]) + 2)) + str((int(__d[1]) - 1))
-			else:
-				if ((int(__d[0]) - 2) >= 0 and (int(__d[1]) + 1) <= 7):
-					if (matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) + 1)].tipo == "C" and matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) + 1)].color == __jugador):
-						retorno = str((int(__d[0]) - 2)) + str((int(__d[1]) + 1))
-				else:
-					if ((int(__d[0]) - 2) >= 0 and (int(__d[1]) - 1) >= 0):
-						if (matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)].tipo == "C" and matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)].color == __jugador):
-							retorno = str((int(__d[0]) - 2)) + str((int(__d[1]) - 1))
-					else:
-						if ((int(__d[0]) + 1) <= 7 and (int(__d[1]) + 2) <= 7):
-							if (matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) + 2)].tipo == "C" and matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) + 2)].color == __jugador):
-								retorno = str((int(__d[0]) + 1)) + str((int(__d[1]) + 2))
-						else:
-							if ((int(__d[0]) + 1) <= 7 and (int(__d[1]) - 2) >= 0):
-								if (matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) - 2)].tipo == "C" and matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) - 2)].color == __jugador):
-									retorno = str((int(__d[0]) + 1)) + str((int(__d[1]) - 2))
-							else:
-								if ((int(__d[0]) - 1) >= 0 and (int(__d[1]) + 2) <= 7):
-									if (matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) + 2)].tipo == "C" and matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) + 2)].color == __jugador):
-										retorno = str((int(__d[0]) - 1)) + str((int(__d[1]) + 2))
-								else:
-									if ((int(__d[0]) - 1) >= 0 and (int(__d[1]) - 2) >= 0):
-										if (matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) - 2)].tipo == "C" and matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) - 2)].color == __jugador):
-											retorno = str((int(__d[0]) - 1)) + str((int(__d[1]) - 2))
+		#else:
+			#print("Revisando en: " + str((int(__d[0]) + 2)) + str((int(__d[1]) - 1)))
+		if ((int(__d[0]) + 2) <= 7 and (int(__d[1]) - 1) >= 0):
+			if (matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) - 1)].tipo == "N" and matrizTablero[(int(__d[0]) + 2)][(int(__d[1]) - 1)].color == __jugador):
+				retorno = str((int(__d[0]) + 2)) + str((int(__d[1]) - 1))
+		#else:
+			#print("Revisando en: " + str((int(__d[0]) - 2)) + str((int(__d[1]) + 1)))
+		if ((int(__d[0]) - 2) >= 0 and (int(__d[1]) + 1) <= 7):
+			if (matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) + 1)].tipo == "N" and matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) + 1)].color == __jugador):
+				retorno = str((int(__d[0]) - 2)) + str((int(__d[1]) + 1))
+		#else:
+			#print("Revisando en: " + str((int(__d[0]) - 2)) + str((int(__d[1]) - 1)))
+			#print("Line 333.\nTipo = " + matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)].tipo)
+		if ((int(__d[0]) - 2) >= 0 and (int(__d[1]) - 1) >= 0):
+			if (matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)].tipo == "N" and matrizTablero[(int(__d[0]) - 2)][(int(__d[1]) - 1)].color == __jugador):
+				retorno = str((int(__d[0]) - 2)) + str((int(__d[1]) - 1))
+		#else:
+			#print("Revisando en: " + str((int(__d[0]) + 1)) + str((int(__d[1]) + 2)))
+		if ((int(__d[0]) + 1) <= 7 and (int(__d[1]) + 2) <= 7):
+			if (matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) + 2)].tipo == "N" and matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) + 2)].color == __jugador):
+				retorno = str((int(__d[0]) + 1)) + str((int(__d[1]) + 2))
+		#else:
+			#print("Revisando en: " + str((int(__d[0]) + 1)) + str((int(__d[1]) - 2)))
+		if ((int(__d[0]) + 1) <= 7 and (int(__d[1]) - 2) >= 0):
+			if (matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) - 2)].tipo == "N" and matrizTablero[(int(__d[0]) + 1)][(int(__d[1]) - 2)].color == __jugador):
+				retorno = str((int(__d[0]) + 1)) + str((int(__d[1]) - 2))
+		#else:
+		if ((int(__d[0]) - 1) >= 0 and (int(__d[1]) + 2) <= 7):
+			if (matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) + 2)].tipo == "N" and matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) + 2)].color == __jugador):
+				retorno = str((int(__d[0]) - 1)) + str((int(__d[1]) + 2))
+		#else:
+			#print("Revisando en: " + str((int(__d[0]) - 1)) + str((int(__d[1]) - 2)))
+		if ((int(__d[0]) - 1) >= 0 and (int(__d[1]) - 2) >= 0):
+			if (matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) - 2)].tipo == "N" and matrizTablero[(int(__d[0]) - 1)][(int(__d[1]) - 2)].color == __jugador):
+					retorno = str((int(__d[0]) - 1)) + str((int(__d[1]) - 2))
 		return retorno
 
 	@classmethod
@@ -348,7 +383,7 @@ class Reglamento:
 
 		__p = self.identificarPieza(__movimiento, __jugador, matrizTablero)
 
-		if __p == "A":
+		if __p == "B":
 			#print("...")
 			#print("La pieza es: " + __p + "\nEl destino es: " + __d)
 			r = int(__d[1]) # r = derecha
@@ -390,7 +425,7 @@ class Reglamento:
 			#self.mostrar(matrizTablero)
 			#input()
 		else:
-			if __p == "T":
+			if __p == "R":
 				#print("retorno = " + str(retorno))
 				for i in range(int(__d[0]), 8):
 					if matrizTablero[i][int(__d[1])].tipo == __p and matrizTablero[i][int(__d[1])].color == __jugador:
@@ -431,8 +466,8 @@ class Reglamento:
 								if matrizTablero[int(__d[0])][i].tipo == __p and matrizTablero[int(__d[0])][i].color == __jugador:
 									retorno = "D" + str(i)
 
-									if __movimiento == "Qf1":
-										print("Line 422.\nTipo = " + matrizTablero[int(__d[0])][i].tipo + " en " + __d[0] + str(i))
+									#if __movimiento == "Qf1":
+										#print("Line 422.\nTipo = " + matrizTablero[int(__d[0])][i].tipo + " en " + __d[0] + str(i))
 									#print("...")
 									#matrizTablero[int(__d[0])][i] = Caballo()
 								i -= 1
@@ -488,12 +523,12 @@ class Reglamento:
 		retorno = False
 
 		if __nombreMetodo == "moverPeon":
-			if __jugador == "b":
+			if __jugador == "w":
 				print("El jugador es: " + __jugador)
 				for i in range(8):
 					if i >= int(__d[0]) and i <= 7:
 						#print("Revisando en: " + str(i) + __d[1])
-						if matrizTablero[i][int(__d[1])].tipo == "P" and matrizTablero[i][int(__d[1])].color == "b":
+						if matrizTablero[i][int(__d[1])].tipo == "P" and matrizTablero[i][int(__d[1])].color == "w":
 							print("Se encontró un Pb en:" + str(i) + __d[1])
 							if (int(__d[0]) == (i-1)) or (int(__d[0]) == (i-2) and i == 6): # Movimiento simple o doble.
 								print("Es un movimiento simple o doble de un peón.")
@@ -506,7 +541,7 @@ class Reglamento:
 			else:
 				i = int(__d[0])
 				while i >= 0:
-					if matrizTablero[i][int(__d[1])].tipo == "P" and matrizTablero[i][int(__d[1])].color == "n":
+					if matrizTablero[i][int(__d[1])].tipo == "P" and matrizTablero[i][int(__d[1])].color == "b":
 						if (int(__d[0]) == (i+1)) or (int(__d[0]) == (i+2) and i == 1): # Movimiento simple de a un casillero.
 								retorno = str(i) + __d[1] + " " + __d
 						break
@@ -528,6 +563,7 @@ class Reglamento:
 			else:
 				if __nombreMetodo == "moverCaballo":
 					__o = self.accesibleParaCaballo(__d, __jugador, matrizTablero)
+					print("Line 534.\n __o == " + str(__o))
 					if type(__o) != type(bool()):
 						if not overridePieza:
 							if not self.piezaEnDestino(__d, matrizTablero):
@@ -592,17 +628,36 @@ class Reglamento:
 	@classmethod
 	def moverPeon(self, __movimiento, __jugador, matrizTablero):
 		retorno = False
+
+		matrizInicialesPiezas = ["R", "N", "B", "K", "Q"]
 		
 		__d = self.obtenerFilaColumna(__movimiento, "moverPeon")
 		print("El obtenerFilaColumna retornó: " + __d)
 		
 		if self.esCaptura(__movimiento, "moverPeon"):
 			if bool(__d):
-				if self.esCapturable(__movimiento, __jugador, __d, matrizTablero):
+				if self.esCapturable(__jugador, __d, matrizTablero):
 					retorno = self.capturar(__movimiento, __jugador, __d, matrizTablero, "moverPeon")
 		else:
 			retorno = self.movimiento(__jugador, __d, matrizTablero, "moverPeon", __movimiento, 0)
 			print("El movimiento retornó: " + str(retorno))
+
+		if retorno: # Este bloque realiza la promoción del Peon.
+			if self.esCaptura(__movimiento, "moverPeon"):
+				print("Line 647.")
+				if len(__movimiento) == 5: # La longitud requerida para que sea una promoción.
+					if __movimiento[4] in matrizInicialesPiezas:
+						matrizTablero[int(retorno[0])][int(retorno[1])].tipo = __movimiento[4]
+						#print("El tipo es: " + matrizTablero[int(retorno[0])][int(retorno[1])].tipo)
+				else:
+					if len(__movimiento) == 4 and ((__movimiento[3] == "8" and __jugador == "w") or (__movimiento[3] == "1" and __jugador == "b")):
+							retorno = False
+			else:
+				if len(__movimiento) == 4 and __movimiento[3] in matrizInicialesPiezas:
+					matrizTablero[int(retorno[0])][int(retorno[1])].tipo = __movimiento[3]
+				else:
+					if len(__movimiento) == 2 and ((__movimiento[1] == "8" and __jugador == "w") or (__movimiento[1] == "1" and __jugador == "b")):
+							retorno = False
 
 		return retorno
 
@@ -615,7 +670,7 @@ class Reglamento:
 
 		if self.esCaptura(__movimiento, "moverAlfil"):
 			if bool(__d):
-				if self.esCapturable(__movimiento, __jugador, __d, matrizTablero):
+				if self.esCapturable(__jugador, __d, matrizTablero):
 					#print("...")
 					retorno = self.capturar(__movimiento, __jugador, __d, matrizTablero, "moverAlfil")
 		else:
@@ -638,7 +693,7 @@ class Reglamento:
 		
 		if self.esCaptura(__movimiento, "moverTorre"):
 			if bool(__d):
-				if self.esCapturable(__movimiento, __jugador, __d, matrizTablero):
+				if self.esCapturable(__jugador, __d, matrizTablero):
 					retorno = self.capturar(__movimiento, __jugador, __d, matrizTablero, "moverTorre")
 		else:
 			print("En moverTorre. esCaptura == False.")
@@ -662,7 +717,7 @@ class Reglamento:
 		#matrizTablero[int(f[0])][int(f[1])].tipo = "A"
 
 		if self.esCaptura(__movimiento, "moveQueen"):
-			if self.esCapturable(__movimiento, __jugador, __d, matrizTablero):
+			if self.esCapturable(__jugador, __d, matrizTablero):
 				print("Line 655.\nLa pieza es capturable.")
 				retorno = self.capturar(__movimiento, __jugador, __d, matrizTablero, "moveQueen")
 		else:
@@ -684,7 +739,7 @@ class Reglamento:
 		print("El obtenerFilaColumna retornó: " + str(__d))
 
 		if self.esCaptura(__movimiento, "moveKing"):
-			if self.esCapturable(__movimiento, __jugador, __d, matrizTablero):
+			if self.esCapturable(__jugador, __d, matrizTablero):
 				retorno = self.capturar(__movimiento, __jugador, __d, matrizTablero, "moveKing")
 		else:
 			print("En moveKing. esCaptura == False.")
@@ -705,7 +760,7 @@ class Reglamento:
 		print("El obtenerFilaColumna retornó: " + str(__d))
 
 		if self.esCaptura(__movimiento, "moverCaballo"):
-			if self.esCapturable(__movimiento, __jugador, __d, matrizTablero):
+			if self.esCapturable(__jugador, __d, matrizTablero):
 				retorno = self.capturar(__movimiento, __jugador, __d, matrizTablero, "moverCaballo")
 		else:
 			print("En moverCaballo. esCaptura == False.")
@@ -719,6 +774,55 @@ class Reglamento:
 		return retorno
 
 	@classmethod
+	def castling(self, __movimiento, __jugador, matrizTablero): # enroque.
+		retorno = False
+
+		if __jugador == "w":
+			if len(__movimiento) == 3: # 0-0
+				if matrizTablero[7][7].tipo == "R" and matrizTablero[7][7].color == __jugador and matrizTablero[7][6].tipo == "c" and matrizTablero[7][5].tipo == "c" and matrizTablero[7][4].tipo == "K" and matrizTablero[7][4].color == __jugador:
+					retorno = "00 00" # Este retorno se hace para que en tablero.moverOD no haga cambios.
+
+					matrizTablero[7][5] = matrizTablero[7][7]
+					matrizTablero[7][7] = Casillero()
+
+					matrizTablero[7][6] = matrizTablero[7][4]
+					matrizTablero[7][4] = Casillero()
+			else:
+				if len(__movimiento) == 5: # 0-0-0
+					if matrizTablero[7][0].tipo == "R" and matrizTablero[7][0].color == __jugador and matrizTablero[7][1].tipo == "c" and matrizTablero[7][2].tipo == "c" and matrizTablero[7][3].tipo == "Q" and matrizTablero[7][3].color == __jugador:
+						retorno = "00 00" # Este retorno se hace para que en tablero.moverOD no haga cambios.
+
+						matrizTablero[7][2] = matrizTablero[7][3]
+						matrizTablero[7][3] = Casillero()
+
+						matrizTablero[7][3] = matrizTablero[7][0]
+						matrizTablero[7][0] = Casillero()
+		else:
+			if len(__movimiento) == 3: # 0-0
+				if matrizTablero[0][7].tipo == "R" and matrizTablero[0][7].color == __jugador and matrizTablero[0][6].tipo == "c" and matrizTablero[0][5].tipo == "c" and matrizTablero[0][4].tipo == "K" and matrizTablero[0][4].color == __jugador:
+					retorno = "00 00" # Este retorno se hace para que en tablero.moverOD no haga cambios.
+
+					matrizTablero[0][5] = matrizTablero[0][7]
+					matrizTablero[0][7] = Casillero()
+
+					matrizTablero[0][6] = matrizTablero[0][4]
+					matrizTablero[0][4] = Casillero()
+			else:
+				if len(__movimiento) == 5: # 0-0-0
+					if matrizTablero[0][0].tipo == "R" and matrizTablero[0][0].color == __jugador and matrizTablero[0][1].tipo == "c" and matrizTablero[0][2].tipo == "c" and matrizTablero[0][3].tipo == "Q" and matrizTablero[0][3].color == __jugador:
+						retorno = "00 00" # Este retorno se hace para que en tablero.moverOD no haga cambios.
+
+						matrizTablero[0][2] = matrizTablero[0][3]
+						matrizTablero[0][3] = Casillero()
+
+						matrizTablero[0][3] = matrizTablero[0][0]
+						matrizTablero[0][0] = Casillero()
+
+		if retorno:
+			self.cambiarTurno(__jugador)
+		return retorno
+
+	@classmethod
 	def verificarTurno(self, __jugador):
 		retorno = False
 		if __jugador == self.turno:
@@ -727,25 +831,25 @@ class Reglamento:
 
 	@classmethod
 	def cambiarTurno(self, __jugador):
-		if __jugador == "b":
-			self.turno = "n"
-		else:
+		if __jugador == "w":
 			self.turno = "b"
+		else:
+			self.turno = "w"
 
 	@classmethod
 	def identificarPieza(self, __movimiento, __jugador, matrizTablero):
 		retorno = "P"
 
-		__matrizInicialesPiezas = ["T", "C", "A", "K", "Q"]
+		__matrizInicialesPiezas = ["R", "N", "B", "K", "Q"]
 		if __movimiento[0] in __matrizInicialesPiezas:
-			if __movimiento[0] == "T":
-					retorno = "T"
+			if __movimiento[0] == "R":
+					retorno = "R"
 			else:
-				if __movimiento[0] == "C":
-					retorno = "C"
+				if __movimiento[0] == "N":
+					retorno = "N"
 				else:
-					if __movimiento[0] == "A":
-						retorno = "A"
+					if __movimiento[0] == "B":
+						retorno = "B"
 					else:
 						if __movimiento[0] == "K":
 							retorno = "K"
@@ -758,15 +862,15 @@ class Reglamento:
 	def identificarMoverPieza(self, __movimiento, __jugador, matrizTablero):
 		retorno = False
 
-		__matrizInicialesPiezas = ["T", "C", "A", "K", "Q"]
+		__matrizInicialesPiezas = ["R", "N", "B", "K", "Q"]
 		if __movimiento[0] in __matrizInicialesPiezas:
-			if __movimiento[0] == "T":
+			if __movimiento[0] == "R":
 				retorno = self.moverTorre(__movimiento, __jugador, matrizTablero)
 			else:
-				if __movimiento[0] == "C":
+				if __movimiento[0] == "N":
 					retorno = self.moverCaballo(__movimiento, __jugador, matrizTablero)
 				else:
-					if __movimiento[0] == "A":
+					if __movimiento[0] == "B":
 						retorno = self.moverAlfil(__movimiento, __jugador, matrizTablero)
 					else:
 						if __movimiento[0] == "K":
@@ -775,8 +879,13 @@ class Reglamento:
 							if __movimiento[0] == "Q":
 								retorno = self.moveQueen(__movimiento, __jugador, matrizTablero)
 		else:
-			retorno = self.moverPeon(__movimiento, __jugador, matrizTablero)
-			print("El moverPeon retornó: " + str(retorno))
+			print("Line 825.")
+			if __movimiento == "0-0" or __movimiento == "0-0-0":
+				retorno = self.castling(__movimiento, __jugador, matrizTablero)
+			else:
+				print("Line 878.")
+				retorno = self.moverPeon(__movimiento, __jugador, matrizTablero)
+				print("El moverPeon retornó: " + str(retorno))
 
 		return retorno
 
@@ -785,10 +894,10 @@ class Reglamento:
 		# p = player, m = movimiento.
 		retorno = True
 
-		if len(m) == 2:
-			0
+		#if len(m) == 3: # Corresponde a la captura de un peon o a ...
+			#if m[0] == "x": # Corresponde a la captura de un peon.
 
-		
+			#if m[0] in self.__matrizColumnas: # Es una columna válida.
 		return retorno
 
 	@classmethod
@@ -805,4 +914,4 @@ class Reglamento:
 		return retorno
 
 	def __init__(self):
-		self.__turno = "b"
+		self.__turno = "w"

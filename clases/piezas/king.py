@@ -7,8 +7,8 @@ class King(Pieza):
 	def tipo(self):
 		return self.__tipo
 
-	def __repr__(self):
-		return "K" + self.color
+	#def __repr__(self):
+		#return self.tipo + self.color
 
 	def __init__(self):
 		super().__init__()

@@ -1,11 +1,11 @@
 import random
 from clases.reglamento import Reglamento
-from clases.piezas.peon import Peon
+from clases.piezas.pawn import Pawn
 from clases.piezas.king import King
 from clases.piezas.queen import Queen
-from clases.piezas.alfil import Alfil
-from clases.piezas.caballo import Caballo
-from clases.piezas.torre import Torre
+from clases.piezas.bishop import Bishop
+from clases.piezas.knight import Knight
+from clases.piezas.rook import Rook
 from clases.casillero import Casillero
 
 class Tablero:
@@ -20,9 +20,11 @@ class Tablero:
 	@classmethod
 	def moverOD(self, __od):
 		print("Recibido en moverOD: " + __od)
+
+		if (__od[0] + __od[1]) != (__od[3] + __od[4]): # Si origen == destino no hace cambios. El castling envía "00 00".
+			self.matrizTablero[int(__od[3])][int(__od[4])] = self.matrizTablero[int(__od[0])][int(__od[1])]
+			self.matrizTablero[int(__od[0])][int(__od[1])] = Casillero()
 		
-		self.matrizTablero[int(__od[3])][int(__od[4])] = self.matrizTablero[int(__od[0])][int(__od[1])]
-		self.matrizTablero[int(__od[0])][int(__od[1])] = Casillero()
 		self.pintarCasilleros()
 	
 	@classmethod
@@ -37,34 +39,34 @@ class Tablero:
 		
 	@classmethod
 	def inicializarPiezas(self):
-		self.__matrizPiezas.append([Torre(), Caballo(), Alfil(), Queen(), King(), Alfil(), Caballo(), Torre(),])
-		self.__matrizPiezas.append([Peon(), Peon(), Peon(), Peon(), Peon(), Peon(), Peon(), Peon(),])
-		self.__matrizPiezas.append([Peon(), Peon(), Peon(), Peon(), Peon(), Peon(), Peon(), Peon(),])
-		self.__matrizPiezas.append([Torre(), Caballo(), Alfil(), Queen(), King(), Alfil(), Caballo(), Torre(),])
+		self.__matrizPiezas.append([Rook(), Knight(), Bishop(), Queen(), King(), Bishop(), Knight(), Rook(),])
+		self.__matrizPiezas.append([Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(),])
+		self.__matrizPiezas.append([Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(),])
+		self.__matrizPiezas.append([Rook(), Knight(), Bishop(), Queen(), King(), Bishop(), Knight(), Rook(),])
 		for i in range(2):
 			for j in range(8):
-				self.__matrizPiezas[i][j].color = "n"
-				self.__matrizPiezas[i+2][j].color = "b"
+				self.__matrizPiezas[i][j].color = "b"
+				self.__matrizPiezas[i+2][j].color = "w"
 				
 	@classmethod
 	def pintarCasilleros(self):
 		__b = Casillero()
-		__b.colorCasillero = "b"
+		__b.colorCasillero = "w"
 		__n = Casillero()
-		__n.colorCasillero = "n"
+		__n.colorCasillero = "b"
 		
 		for i in range(8):
 			for j in range(8):
 				if i % 2:
 					if j % 2:
-						self.matrizTablero[i][j].colorCasillero = "b"
+						self.matrizTablero[i][j].colorCasillero = "w"
 					else:
-						self.matrizTablero[i][j].colorCasillero = "n"
+						self.matrizTablero[i][j].colorCasillero = "b"
 				else:
 					if j % 2:
-						self.matrizTablero[i][j].colorCasillero = "n"
-					else:
 						self.matrizTablero[i][j].colorCasillero = "b"
+					else:
+						self.matrizTablero[i][j].colorCasillero = "w"
 	@classmethod
 	def tableroToFile(self):
 		f = open("tablero.txt", 'w');
@@ -78,9 +80,9 @@ class Tablero:
 	@classmethod
 	def colocarPiezas(self):
 		__b = Casillero()
-		__b.colorCasillero = "b"
+		__b.colorCasillero = "w"
 		__n = Casillero()
-		__n.colorCasillero = "n"
+		__n.colorCasillero = "b"
 		
 		for i in range(8):
 			self.matrizTablero.append([Casillero(), Casillero(), Casillero(), Casillero(), Casillero(), Casillero(), Casillero(), Casillero(),])
@@ -96,15 +98,15 @@ class Tablero:
 			self.matrizTablero[7][i] = self.__matrizPiezas[3][i]
 
 		self.pintarCasilleros();
-		#self.tableroToFile();
+		self.tableroToFile();
 			
 	@classmethod
-	def movimientosAlAzar(self, cantidad):
+	def movimientosAlAzar(self, cantidad): # Agregar coronación y enroque.
 		lista = ""
 		i = 0
 		failed = 0
 		__matrizColumnas = ["a", "b", "c", "d", "e", "f", "g", "h"]
-		__matrizInicialesPiezas = ["", "T", "C", "A", "K", "Q"]
+		__matrizInicialesPiezas = ["", "R", "N", "B", "K", "Q"]
 		while i < cantidad:
 			__f = random.randint(1, 8)
 			__x = random.randint(0, 1)
@@ -116,9 +118,9 @@ class Tablero:
 				__x = ""
 
 			if __j == 1:
-				__j = "n"
-			else:
 				__j = "b"
+			else:
+				__j = "w"
 
 			__c = random.randint(0, 7)
 			__c = __matrizColumnas[__c]
@@ -129,7 +131,7 @@ class Tablero:
 			__movimiento = __p + __x + __c + str(__f)
 
 			#if __p == "C":
-				#print("Caballo " + __j + " -->" + __movimiento)
+				#print("Knight " + __j + " -->" + __movimiento)
 			print("El movimiento enviado fue: " + __movimiento)
 			print("\n" + self.__repr__())
 			if self.mover(__movimiento, __j) == True:

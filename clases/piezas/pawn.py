@@ -1,6 +1,6 @@
 from clases.piezas.pieza import Pieza
 
-class Peon(Pieza):
+class Pawn(Pieza):
 	__tipo = "P"
 
 	@property
@@ -11,8 +11,8 @@ class Peon(Pieza):
 	def tipo(self, value):
 		self.__tipo = value
 
-	def __repr__(self):
-		return "P" + self.color
+	#def __repr__(self):
+		#return "P" + self.color
 
 	def __init__(self):
 		super().__init__()

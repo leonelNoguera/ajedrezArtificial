@@ -1,1 +1,1 @@
-[[Tn, Cn, An, Qn, Kn, An, Cn, Tn], [Pn, Pn, Pn, Pn, Pn, Pn, Pn, Pn], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [Pb, Pb, Pb, Pb, Pb, Pb, Pb, Pb], [Tb, Cb, Ab, Qb, Kb, Ab, Cb, Tb]]
+[[Rb, Nb, Bb, Qb, Kb, Bb, Nb, Rb], [Pb, Pb, Pb, Pb, Pb, Pb, Pb, Pb], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [  ,   ,   ,   ,   ,   ,   ,   ], [Pw, Pw, Pw, Pw, Pw, Pw, Pw, Pw], [Rw, Nw, Bw, Qw, Kw, Bw, Nw, Rw]]
