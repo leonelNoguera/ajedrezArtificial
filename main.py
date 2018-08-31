@@ -1,14 +1,14 @@
 #http://www.123ajedrez.com/reglas-basicas/notacin
-print("Hola.")
+
 from clases.tablero import Tablero
-#if __name__ == '__main__':
+
 # Inicializar tablero, colocar piezas y mostrar.
 
 tablero = Tablero()
 tablero.inicializarPiezas()
 tablero.colocarPiezas()
 
-#print(tablero)
+print(tablero)
 
 tablero.mover("d4", "w")
 tablero.mover("e5", "b")
