@@ -2,7 +2,7 @@
 # Indica el color del casillero.
 class Casillero:
 	__tipo = "c"
-	
+
 	@property
 	def tipo(self):
 		return self.__tipo

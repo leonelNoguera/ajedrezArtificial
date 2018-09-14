@@ -10,18 +10,36 @@ tablero.colocarPiezas()
 
 print(tablero)
 
-tablero.mover("d4", "w")
-tablero.mover("e5", "b")
-tablero.mover("d5", "w")
-tablero.mover("e4", "b")
-tablero.mover("d6", "w")
-tablero.mover("e3", "b")
-tablero.mover("Bd2", "w")
-tablero.mover("Be7", "b")
-tablero.mover("dxe7", "w")
-tablero.mover("exf2", "b")
-tablero.mover("exd8Q", "w")
-tablero.mover("fxe1Q", "b")
+movimientos = []
+
+movimientos.append("d4")
+movimientos.append("e5")
+movimientos.append("d5")
+movimientos.append("e4")
+movimientos.append("d6")
+movimientos.append("e3")
+movimientos.append("Bd2")
+movimientos.append("Be7")
+movimientos.append("dxe7")
+movimientos.append("exf2")
+movimientos.append("exd8Q")
+movimientos.append("fxe1Q") # b
+
+movimientos.append("b4")
+movimientos.append("f5")
+movimientos.append("b5")
+movimientos.append("f4") # b
+movimientos.append("g4")
+
+movimientos.append("fxg3a.p.") # b
+#movimientos.append("e4")
+#movimientos.append("c6") # b
+#movimientos.append("e5")
+#movimientos.append("c5")
+#movimientos.append("bxc6a.p.") # No debería mover.
+
+
+tablero.partida(movimientos)
 
 #print("\n" + str(tablero))
 

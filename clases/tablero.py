@@ -1,4 +1,4 @@
-import random
+import random, os
 from clases.reglamento import Reglamento
 from clases.piezas.pawn import Pawn
 from clases.piezas.king import King
@@ -28,6 +28,13 @@ class Tablero:
 		self.pintarCasilleros()
 	
 	@classmethod
+	def partida(self, movimientos):
+		for i in range(len(movimientos)):
+			self.mover(movimientos[i], self.__reglamento.turno)
+			print(self.__repr__() + "\n")
+			#os.system("sleep 1")
+
+	@classmethod
 	def mover(self, __movimiento, __jugador):
 		retorno = False
 		__retornoReglamento = self.__reglamento.mover(__movimiento, __jugador, self.matrizTablero, self.__reglamento.turno)
@@ -43,10 +50,16 @@ class Tablero:
 		self.__matrizPiezas.append([Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(),])
 		self.__matrizPiezas.append([Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(), Pawn(),])
 		self.__matrizPiezas.append([Rook(), Knight(), Bishop(), Queen(), King(), Bishop(), Knight(), Rook(),])
+		id = 0
 		for i in range(2):
 			for j in range(8):
+				self.__matrizPiezas[i][j].id = id
+				id += 1
 				self.__matrizPiezas[i][j].color = "b"
 				self.__matrizPiezas[i+2][j].color = "w"
+		#for i in range(2):
+			#for j in range(8):
+				#input("Line 62.\nid =" + str(self.__matrizPiezas[i][j].id))
 				
 	@classmethod
 	def pintarCasilleros(self):
@@ -71,6 +84,7 @@ class Tablero:
 	def tableroToFile(self):
 		f = open("tablero.txt", 'w');
 		f.write(str(self.matrizTablero));
+		f.close()
 	@classmethod
 	def movimientosToFile(self, m, j):
 		f = open("movimientos.txt", 'a')

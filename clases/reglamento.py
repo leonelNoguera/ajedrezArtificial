@@ -10,6 +10,15 @@ from clases.casillero import Casillero
 class Reglamento:
 	__matrizColumnas = ["a", "b", "c", "d", "e", "f", "g", "h"]
 	__matrizFilas = [8, 7, 6, 5, 4, 3, 2, 1]
+	__history = []
+	
+	@classmethod
+	def addToHistory(self, m, j, r):
+		# "00 00" --> castling.
+		self.__history.append([m, j, r])
+	@property
+	def history(self):
+		return self.__history
 	
 	@property
 	def turno(self):
@@ -658,6 +667,32 @@ class Reglamento:
 				else:
 					if len(__movimiento) == 2 and ((__movimiento[1] == "8" and __jugador == "w") or (__movimiento[1] == "1" and __jugador == "b")):
 							retorno = False
+		else: # Este bloque realiza la captura al paso.
+			if self.esCaptura(__movimiento, "moverPeon"):
+				if len(__movimiento) == 8: # La longitud requerida para que sea una captura al paso.
+					if __movimiento[4] == 'a' and __movimiento[5] == '.' and __movimiento[6] == 'p' and __movimiento[7] == '.':
+						print("Line 665.\nes captura al paso...")
+						c = self.__matrizColumnas.index(__movimiento[0])
+						print("La columna de origen es: " + str(c))
+						if __jugador == "w":
+							if (int(__d[0]) + 1) < 8:
+								print("Revisando en: " + str(int(__d[0]) + 1) + str(c))
+								if matrizTablero[int(__d[0]) + 1][c].tipo == "P" and matrizTablero[int(__d[0]) + 1][c].color == "w":
+									if matrizTablero[int(__d[0]) + 1][int(__d[1])].tipo == "P" and matrizTablero[int(__d[0]) + 1][int(__d[1])].color == "b":
+										if matrizTablero[int(__d[0]) + 1][int(__d[1])].ultimateMovementWas(self,"double_movement"):
+											matrizTablero[int(__d[0]) + 1][int(__d[1])] = Casillero()
+											retorno = str(int(__d[0]) + 1) + str(c) + " " + __d
+						else:
+							if (int(__d[0]) - 1) > -1:
+								print("Revisando en: " + str(int(__d[0]) - 1) + str(c))
+								if matrizTablero[int(__d[0]) - 1][c].tipo == "P" and matrizTablero[int(__d[0]) - 1][c].color == "b":
+									if matrizTablero[int(__d[0]) - 1][int(__d[1])].tipo == "P" and matrizTablero[int(__d[0]) - 1][int(__d[1])].color == "w":
+										# En cuanto esté solucionado el problema del historial, debería verificar.
+										if matrizTablero[int(__d[0]) - 1][int(__d[1])].ultimateMovementWas(self, "double_movement"):
+											matrizTablero[int(__d[0]) - 1][int(__d[1])] = Casillero()
+											retorno = str(int(__d[0]) - 1) + str(c) + " " + __d
+
+						
 
 		return retorno
 
@@ -910,7 +945,10 @@ class Reglamento:
 			retorno = self.identificarMoverPieza(__movimiento, __jugador, matrizTablero)
 			print("El identificarMoverPieza retornó: " + str(retorno))
 			if retorno:
+				self.addToHistory(__movimiento, __jugador, retorno)
 				self.cambiarTurno(__jugador)
+				# Historial de movimientos.
+				
 		return retorno
 
 	def __init__(self):

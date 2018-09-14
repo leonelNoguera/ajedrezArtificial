@@ -1,13 +1,12 @@
 function iniciar()
 {
 	var elemento=document.getElementById('lienzoTablero');
+	var w=document.getElementById('texto');
+	alert(w.getText);
 	lienzoTablero=elemento.getContext('2d');
 	
 	dibujarTablero(lienzoTablero);
 	colocarPiezas();
-
-	//window.addEventListener("click", colocarPiezas, false);
-	
 }
 
 function colocarPiezas()
