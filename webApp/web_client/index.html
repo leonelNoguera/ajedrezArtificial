@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+	<html lang="es">
+		<head>
+			<title>ajedrezArtificial</title>
+			<!--<script type="text/javascript" src="./clases_js/querySender.js"></script>
+			<script type="text/javascript" src="./clases_js/tablero.js"></script>-->
+			<!--<link rel="stylesheet" href="./estilos/index.css">-->
+			<script type="text/javascript" src="./clases_js/AjedrezArtificial.js"></script>
+		</head>
+	<body onload='Tablero.iniciar()'>
+
+		<!--<?php
+		//include_once 'clases/tablero.php';
+
+		//$i = new Tablero();
+
+		//$i->LoadTablero();
+
+		//system("python3m querySender.py -m e5");
+		?>-->
+		<input type="text" placeholder="Ingrese movimiento..." id="txtMovimiento">
+		<input type="button" value="Enviar" onclick="QuerySender.SendQuery()"></button></br></br>
+
+		<input type="button" value="Juego libre" onclick="Tablero.juegoLibre()"></button></br></br>
+
+		<input type="text" placeholder="pieza..." id="txtPieza">
+		<input type="text" placeholder="color..." id="txtColor">
+		<input type="text" placeholder="fila..." id="txtFila">
+		<input type="text" placeholder="columna..." id="txtColumna">
+
+		<input type="button" value="Mover" onclick="Tablero.mover()"></input>
+		<input type="button" value="Mostrar array" onclick="Tablero.mostrarArray()"></input>
+		<div id="arrayTablero"></div>
+		<!--<canvas width="50" height="50" id="lienzoTablero_00" onclick="alert('00')">No soportado.</canvas>
+		<canvas width="50" height="50" id="lienzoTablero_01" onclick="alert('01')">No soportado.</canvas>-->
+		<canvas width="400" height="400" id="lienzoTablero">Canvas no soportado.</canvas>
+		<textarea style="width: 50px; height: 400px" id='listaMovimientos'></textarea>
+		<button id="btnListaMovimientos" onclick="QuerySender.SendMultipleQueryes()">Enviar lista</button>
+		<canvas width="300" height="100" id="lienzoPiezas">Canvas no soportado.</canvas>
+	</body>
+</html>

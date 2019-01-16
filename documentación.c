@@ -2,6 +2,7 @@
 Archivo: tablero.py
 Clase: Tablero
 Descripción: Esta clase representa el tablero del ajedrez.
+
 Métodos:
 	
 	def __init__(self):
@@ -17,6 +18,21 @@ Métodos:
 	# i corresponde a la columnas, las cuales son recorridas desde el elemento 0 al 7.
 	# Concatena cada elemento al retorno usando el __repr__ de cada uno.
 
+	@classmethod
+	def mover(self, movimiento):
+
+		
+
+	@classmethod
+	def moverOD(self, od):
+
+		Variables:
+			od
+			# Esta variable siempre es tipo str y contiene las coordenadas de origen y destino de la pieza.
+			# Ejemplo: '13 33'. Mueve una pieza de 'd7' a 'd5'.
+			# En el caso especial de que el movimiento sea castling, od == '00 00'. Con esto no se realiza intercambio de piezas.
+
+		# Por último llama a: self.pintarCasilleros().
 
 ...
 

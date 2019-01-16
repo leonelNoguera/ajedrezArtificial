@@ -1,0 +1,33 @@
+
+En este archivo recolecto información sobre la notación del ajedrez.
+El software trabajará principalmente con notación de la FIDE y en inglés, así también los nombres de variables, métodos, clases, etc.
+El usuario podrá ver todo el juego en español por lo cual habrá código que traduzca de un idioma a otro.
+
+Links relacionados:
+http://www.chess-poster.com/english/learn_chess/notation/notation.htm
+
+---------------------------------------------------------------------
+
+K = King --> R = Rey.
+Q = Queen --> D = Dama.
+R = Rook --> T = Torre.
+B = Bishop --> A = Alfil.
+Kt or N = Knight --> C = Caballo.
+El peon no tiene una letra correspondiente.
+
++ or ch Check --> 
+0-0 Kingside Castling --> enroque de Rey, enroque corto.
+0-0-0 Queenside Castling --> enroque de Dama, enroque largo.
+
+e.p. en passant move --> captura al paso.
+
+x or : Capture --> captura.
+
+
+
+
+
+
+
+
+
