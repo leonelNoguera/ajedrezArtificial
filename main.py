@@ -1,14 +1,22 @@
+#!/usr/bin/python
+#print ("...")
 #http://www.123ajedrez.com/reglas-basicas/notacin
 
-from clases.tablero import Tablero
-
+from clases_py.tablero import Tablero
 # Inicializar tablero, colocar piezas y mostrar.
 
 tablero = Tablero()
 tablero.inicializarPiezas()
 tablero.colocarPiezas()
 
-print(tablero)
+#while 1:
+	#tablero.mover(input())
+	#print("\n" + str(tablero))
+
+#tablero.mover("d4")
+#tablero.mover("a6")
+
+#print(tablero)
 
 movimientos = []
 
@@ -31,13 +39,13 @@ movimientos.append("b5")
 movimientos.append("f4") # b
 movimientos.append("g4")
 
-movimientos.append("fxg3a.p.") # b
+#movimientos.append("fxg3a.p.") # b
+
 #movimientos.append("e4")
 #movimientos.append("c6") # b
 #movimientos.append("e5")
 #movimientos.append("c5")
 #movimientos.append("bxc6a.p.") # No debería mover.
-
 
 tablero.partida(movimientos)
 
@@ -57,4 +65,4 @@ tablero.partida(movimientos)
 
 # Movimientos al azar.
 #tablero.movimientosAlAzar(1000)
-print("\n" + str(tablero))
+#print("\n" + str(tablero))
