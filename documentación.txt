@@ -1,4 +1,4 @@
-# --- 20180811_0012 --- #
+# ---  --- #
 Archivo: tablero.py
 Clase: Tablero
 Descripción: Esta clase representa el tablero del ajedrez.

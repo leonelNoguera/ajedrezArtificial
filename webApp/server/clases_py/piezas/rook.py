@@ -1,6 +1,6 @@
 from clases_py.piezas.pieza import Pieza
 
-class Root(Pieza):
+class Rook(Pieza):
 	__tipo = "R"
 
 	@property

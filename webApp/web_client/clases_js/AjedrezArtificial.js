@@ -71,7 +71,6 @@ var Tablero = /** @class */ (function () {
             if (f <= 7) {
                 if (c <= 7) {
                     //console.log('f = ' + f + ', c = ' + c);
-                    console.log('i = ' + i);
                     switch (response[i]) {
                         case 'R':
                             p = 'r';
@@ -89,9 +88,6 @@ var Tablero = /** @class */ (function () {
                             p = 'k';
                             break;
                         case 'P':
-                            if (i == 146) {
-                                console.log('Line: 95');
-                            }
                             p = 'p';
                             break;
                         case ' ':
@@ -105,7 +101,7 @@ var Tablero = /** @class */ (function () {
                         co = '';
                     }
                     i += 3;
-                    console.log('p = ' + p + ' - co = ' + co + ' - f = ' + f + ' - c = ' + c);
+                    //console.log('p = ' + p + ' - co = ' + co + ' - f = ' + f + ' - c = ' + c);
                     this.colocarPiezas(p, co, f, c);
                     c++;
                 }
@@ -826,7 +822,19 @@ var Tablero = /** @class */ (function () {
                 lienzoTablero.stroke();
                 piezasArray[f][c] = 'k' + co;
                 break;
-            default:
+            case 'e':
+                /*if (lienzoTablero.fillStyle == "#000000")
+                {
+                    lienzoTablero.fillStyle = "#ffffff";
+                }*/
+                /*lienzoTablero.beginPath();
+                lienzoTablero.moveTo(0 + (50 * c), 0 + (50 * f));
+                lienzoTablero.lineTo(50 + (50 * c), 0 + (50 * f));
+                lienzoTablero.lineTo(50 + (50 * c), 50 + (50 * f));
+                lienzoTablero.lineTo(0 + (50 * c), 50 + (50 * f));
+                lienzoTablero.lineTo(0 + (50 * c), 0 + (50 * f));
+                lienzoTablero.fill();
+                lienzoTablero.stroke();*/
                 piezasArray[f][c] = 'e';
                 break;
         }
@@ -836,12 +844,25 @@ var Tablero = /** @class */ (function () {
 //import db from 'sqlite';
 //db.open('ajedrezArtificial.db')
 //.then(() =>)
+var posicionLista = 0;
 var tableroArray = "";
 var QuerySender = /** @class */ (function () {
     function QuerySender() {
     }
-    QuerySender.SendQuery = function () {
-        var comando = document.getElementById("txtMovimiento").value;
+    QuerySender.SendQuery = function (comando) {
+        //let comando = (<HTMLInputElement>document.getElementById("txtMovimiento")).value;
+        if (comando === void 0) { comando = document.getElementById("txtMovimiento").value; }
+        /*if (comando == 'init')
+        {
+            for (var i = 0; i < 8; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {
+                    Tablero.colocarPiezas('e', '', i, j);
+                }
+            }
+        }*/
+        console.log('Comando recibido en SendQuery(): ' + comando);
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:8080/", true);
         xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
@@ -855,24 +876,109 @@ var QuerySender = /** @class */ (function () {
         };
         //alert("...");
     };
-    QuerySender.SendMultipleQueryes = function () {
+    QuerySender.SendMultipleQueryes = function (btn) {
         var lista = new Array();
         var cadena = document.getElementById("listaMovimientos").value;
+        var cadenaAux = '';
         var elemento = '';
+        var flag = true;
         for (var i = 0; i < cadena.length; i++) {
-            if (cadena[i] != '\n') {
-                elemento += cadena[i];
+            if ((cadena[i] == ' ') && (cadena[i + 1] == '<') && (cadena[i + 2] == '-') && (cadena[i + 3] == '-')) {
+                i += 3;
+            }
+            else {
+                cadenaAux += cadena[i];
+            }
+        }
+        //cadena = cadenaAux;
+        for (var i = 0; i < cadenaAux.length; i++) {
+            if (cadenaAux[i] != '\n') {
+                elemento += cadenaAux[i];
             }
             else {
                 lista.push(elemento);
                 elemento = '';
             }
-            if (i == (cadena.length - 1)) {
-                lista.push(elemento);
+            if (i == (cadenaAux.length - 1)) {
+                if (elemento != '') {
+                    lista.push(elemento);
+                }
                 elemento = '';
             }
         }
-        console.log(lista);
+        //console.log('La lista de comandos obtenida es: ' + lista);
+        if (btn == 'init') {
+            //console.log(cadenaAux);
+            posicionLista = 0;
+            this.SendQuery(lista[0]);
+            cadena = '';
+            for (var i = 0; i < cadenaAux.length; i++) {
+                if ((cadenaAux[i] == '\n') && (flag)) {
+                    cadena += ' <--\n';
+                    flag = false;
+                }
+                else {
+                    cadena += cadenaAux[i];
+                }
+            }
+            document.getElementById("listaMovimientos").value = cadena;
+        }
+        else {
+            if (btn == 'siguiente') {
+                posicionLista++;
+                //console.log('posicionLista == ' + posicionLista);
+                this.SendQuery(lista[posicionLista]);
+                flag = false;
+                cadenaAux = '';
+                // cadena:
+                /*init
+                a4 <--
+                b5*/
+                for (var i = 0; i < cadena.length; i++) {
+                    if ((cadena[i] == ' ') && (cadena[i + 1] == '<') && (cadena[i + 2] == '-') && (cadena[i + 3] == '-')) {
+                        i += 4;
+                        cadenaAux += '\n';
+                        flag = true;
+                    }
+                    else {
+                        /*if (flag)
+                        {
+                            if (cadena[i] == '\n')
+                            {
+                                cadenaAux += ' <--\n';
+                            }
+                            else
+                            {
+                                if ((i + 1) == cadena.length)
+                                {
+                                    cadenaAux += ' <--';
+                                }
+                            }
+                            flag = false;
+                            alert(cadenaAux);
+                        }
+                        else
+                        {
+                            cadenaAux += cadena[i];
+                        }*/
+                        if ((((i + 1) == cadena.length) || (cadena[i] == '\n')) && (flag)) {
+                            if ((i + 1) == cadena.length) {
+                                cadenaAux += cadena[i] + ' <--';
+                            }
+                            else {
+                                cadenaAux += ' <--\n';
+                            }
+                            flag = false;
+                            //alert(cadenaAux);
+                        }
+                        else {
+                            cadenaAux += cadena[i];
+                        }
+                    }
+                }
+                document.getElementById("listaMovimientos").value = cadenaAux;
+            }
+        }
         /*let xhttp : XMLHttpRequest = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:8080/", true);
         xhttp.setRequestHeader("content-type","application/x-www-form-urlencoded");

@@ -4,7 +4,7 @@ from clases_py.piezas.king import King
 from clases_py.piezas.queen import Queen
 from clases_py.piezas.bishop import Bishop
 from clases_py.piezas.knight import Knight
-from clases_py.piezas.root import Root
+from clases_py.piezas.rook import Rook
 from clases_py.casillero import Casillero
 
 class Reglamento:
@@ -898,8 +898,10 @@ class Reglamento:
 
 	@classmethod
 	def cambiarTurno(self, __jugador):
+		print('Line 901 (reglamento.py): En cambiarTurno(), __jugador == ' + __jugador)
 		if __jugador == "w":
 			self.turno = "b"
+			#print('Line 904 (reglamento.py): En cambiarTurno(), se cambió el turno a:' + self.turno)
 		else:
 			self.turno = "w"
 
@@ -990,9 +992,10 @@ class Reglamento:
 		if retorno:
 			self.addToHistory(movimiento, self.turno, retorno)
 			self.cambiarTurno(turno)
-			# Historial de movimientos.
+			print('Line 995 (reglamento.py): En mover(), se cambió el turno a: ' + self.turno)
 				
 		return retorno
 
 	def __init__(self):
+		print('Line 999 (reglamento.py): En __init__().')
 		self.__turno = 'w'

@@ -63,8 +63,7 @@ class ChessHandler(SimpleHTTPRequestHandler):
 		#if tableroIsInit == False and comando == 'init':
 
 		if comando == 'init':
-			tablero.inicializarPiezas()
-			tablero.colocarPiezas()
+			tablero.reiniciar()
 			#tableroIsInit = True
 		else:
 			if comando == 'random':

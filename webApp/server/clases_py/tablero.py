@@ -5,17 +5,17 @@ from clases_py.piezas.king import King
 from clases_py.piezas.queen import Queen
 from clases_py.piezas.bishop import Bishop
 from clases_py.piezas.knight import Knight
-from clases_py.piezas.root import Root
+from clases_py.piezas.rook import Rook
 from clases_py.casillero import Casillero
 
 class Tablero:
 	matrizTablero = []
 	__matrizPiezas = []
-	__reglamento = Reglamento()
+	reglamento = Reglamento()
 
-	@property
-	def reglamento(self):
-		return self.__reglamento
+	#@property
+	#def reglamento(self):
+		#return self.__reglamento
 	
 	@classmethod
 	def moverOD(self, od):
@@ -40,9 +40,10 @@ class Tablero:
 
 	@classmethod
 	def mover(self, movimiento):
+		print('Line 43: El turno actual es: ' + self.reglamento.turno)
 		#__retornoReglamento = self.__reglamento.mover(__movimiento, __jugador, self.matrizTablero, self.__reglamento.turno)
-		retornoReglamento = self.__reglamento.mover(
-			movimiento, self.__reglamento.turno, self.matrizTablero
+		retornoReglamento = self.reglamento.mover(
+			movimiento, self.reglamento.turno, self.matrizTablero
 			)
 		print("El reglamento retornó: " + str(retornoReglamento))
 		if type(retornoReglamento) == type(str()):
@@ -52,16 +53,16 @@ class Tablero:
 		
 	@classmethod
 	def inicializarPiezas(self):
-		self.__matrizPiezas.append([Root(), Knight(), Bishop(), Queen(), 
-			King(), Bishop(), Knight(), Root()])
+		self.__matrizPiezas.append([Rook(), Knight(), Bishop(), Queen(), 
+			King(), Bishop(), Knight(), Rook()])
 		self.__matrizPiezas.append([Pawn(), Pawn(), Pawn(), Pawn(), Pawn(),
 			Pawn(), Pawn(), Pawn()
 			])
 		self.__matrizPiezas.append([Pawn(), Pawn(), Pawn(), Pawn(), Pawn(),
 			Pawn(), Pawn(), Pawn()
 			])
-		self.__matrizPiezas.append([Root(), Knight(), Bishop(), Queen(),
-			King(), Bishop(), Knight(), Root()
+		self.__matrizPiezas.append([Rook(), Knight(), Bishop(), Queen(),
+			King(), Bishop(), Knight(), Rook()
 			])
 		id = 0
 		for i in range(2):
@@ -190,6 +191,15 @@ class Tablero:
 			retorno += "\n"
 		return retorno
 
+	@classmethod
+	def reiniciar(self):
+		print('Line 196 (tablero.py): En reiniciar()')
+		self.matrizTablero = []
+		self.__matrizPiezas = []
+		self.reglamento.turno = 'w'
+
+		self.inicializarPiezas()
+		self.colocarPiezas()
+
 	def __init__(self):
 		0
-		#self.colocarPiezas()

@@ -91,7 +91,6 @@ class Tablero
 				if (c <= 7)
 				{
 					//console.log('f = ' + f + ', c = ' + c);
-					console.log('i = ' + i);
 					switch (response[i])
 					{
 						case 'R':
@@ -110,10 +109,6 @@ class Tablero
 							p = 'k';
 							break;
 						case 'P':
-							if (i == 146)
-							{
-								console.log('Line: 95');
-							}
 							p = 'p';
 							break;
 						case ' ':
@@ -131,7 +126,7 @@ class Tablero
 					}
 					i += 3;
 
-					console.log('p = ' + p + ' - co = ' + co + ' - f = ' + f + ' - c = ' + c);
+					//console.log('p = ' + p + ' - co = ' + co + ' - f = ' + f + ' - c = ' + c);
 					this.colocarPiezas(p, co, f, c);
 
 					c++;
@@ -973,7 +968,21 @@ class Tablero
 		        piezasArray[f][c] = 'k' + co;
 	        	break;
     		
-    		default:
+    		case 'e':
+    			/*if (lienzoTablero.fillStyle == "#000000")
+    			{
+    				lienzoTablero.fillStyle = "#ffffff";
+    			}*/
+
+    			/*lienzoTablero.beginPath();
+		        lienzoTablero.moveTo(0 + (50 * c), 0 + (50 * f));
+		        lienzoTablero.lineTo(50 + (50 * c), 0 + (50 * f));
+		        lienzoTablero.lineTo(50 + (50 * c), 50 + (50 * f));
+		        lienzoTablero.lineTo(0 + (50 * c), 50 + (50 * f));
+		        lienzoTablero.lineTo(0 + (50 * c), 0 + (50 * f));
+		        lienzoTablero.fill();
+		        lienzoTablero.stroke();*/
+
     			piezasArray[f][c] = 'e';
     			break;
     	}
