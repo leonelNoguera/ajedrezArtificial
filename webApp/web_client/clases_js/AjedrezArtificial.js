@@ -849,6 +849,9 @@ var tableroArray = "";
 var QuerySender = /** @class */ (function () {
     function QuerySender() {
     }
+    QuerySender.EjemploMultipleQueryes = function () {
+        document.getElementById("listaMovimientos").value = 'init\na4\nb5\nNf3\nBa6\ne3\nbxa4\nRxa4\nBxf1\nKxf1\nNf6\nNe5\nNc6\nc4\nh5\nf4\nh4\nc5\nRh5\nQxh5';
+    };
     QuerySender.SendQuery = function (comando) {
         //let comando = (<HTMLInputElement>document.getElementById("txtMovimiento")).value;
         if (comando === void 0) { comando = document.getElementById("txtMovimiento").value; }

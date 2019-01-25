@@ -2,22 +2,9 @@
 	<html lang="es">
 		<head>
 			<title>ajedrezArtificial</title>
-			<!--<script type="text/javascript" src="./clases_js/querySender.js"></script>
-			<script type="text/javascript" src="./clases_js/tablero.js"></script>-->
-			<!--<link rel="stylesheet" href="./estilos/index.css">-->
 			<script type="text/javascript" src="./clases_js/AjedrezArtificial.js"></script>
 		</head>
 	<body onload='Tablero.iniciar()'>
-
-		<!--<?php
-		//include_once 'clases/tablero.php';
-
-		//$i = new Tablero();
-
-		//$i->LoadTablero();
-
-		//system("python3m querySender.py -m e5");
-		?>-->
 		<input type="text" placeholder="Ingrese movimiento..." id="txtMovimiento">
 		<input type="button" value="Enviar" onclick="QuerySender.SendQuery()"></button></br></br>
 
@@ -35,6 +22,7 @@
 		<canvas width="50" height="50" id="lienzoTablero_01" onclick="alert('01')">No soportado.</canvas>-->
 		<canvas width="400" height="400" id="lienzoTablero">Canvas no soportado.</canvas>
 		<textarea style="width: 100px; height: 400px" id='listaMovimientos'></textarea>
+		<button id="btnEjemplo" onclick="QuerySender.EjemploMultipleQueryes()">Ejemplo</button>
 		<button id="btnInit" onclick="QuerySender.SendMultipleQueryes('init')">Iniciar</button>
 		<button id="btnAnterior" onclick="QuerySender.SendMultipleQueryes('anterior')"> <-- </button>
 		<button id="btnSiguiente" onclick="QuerySender.SendMultipleQueryes('siguiente')"> --> </button>
