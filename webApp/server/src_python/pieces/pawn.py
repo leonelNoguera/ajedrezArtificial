@@ -1,15 +1,15 @@
-from clases_py.piezas.pieza import Pieza
+from src_python.pieces.piece import Piece
 
-class Pawn(Pieza):
-	__tipo = "P"
+class Pawn(Piece):
+	__piece_type = "P"
 
 	@property
-	def tipo(self):
-		return self.__tipo
+	def piece_type(self):
+		return self.__piece_type
 
-	@tipo.setter
-	def tipo(self, value):
-		self.__tipo = value
+	@piece_type.setter
+	def piece_type(self, value):
+		self.__piece_type = value
 
 	@classmethod
 	def ultimateMovement(self):

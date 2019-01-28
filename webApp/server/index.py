@@ -2,9 +2,9 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from io import BytesIO
 import json
 
-from clases_py.tablero import Tablero
+from src_python.board import Board
 
-tablero = Tablero()
+board = Board()
 tableroIsInit = False
 
 class ChessHandler(SimpleHTTPRequestHandler):
@@ -54,24 +54,24 @@ class ChessHandler(SimpleHTTPRequestHandler):
 
 		#en = json.JSONEncoder()
 
-		comando = str(body)
-		comando = comando.replace("b'comando=", "")
-		comando = comando.replace("'", "")
+		command = str(body)
+		command = command.replace("b'command=", "")
+		command = command.replace("'", "")
 
 		#respuesta = ''
 
 		#if tableroIsInit == False and comando == 'init':
 
-		if comando == 'init':
-			tablero.reiniciar()
+		if command == 'init':
+			board.reiniciar()
 			#tableroIsInit = True
 		else:
-			if comando == 'random':
-				tablero.movimientosAlAzar(1)
+			if command == 'random':
+				board.movimientosAlAzar(1)
 			else:
-				tablero.mover(comando)
+				board.mover(command)
 
-		respuesta = tablero.matrizTablero
+		respuesta = board.matrizBoard
 
 		#movimiento = body
 

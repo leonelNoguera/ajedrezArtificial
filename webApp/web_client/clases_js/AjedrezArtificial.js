@@ -869,7 +869,7 @@ var QuerySender = /** @class */ (function () {
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:8080/", true);
         xhttp.setRequestHeader("content-type", "application/x-www-form-urlencoded");
-        xhttp.send("comando=" + comando);
+        xhttp.send("command=" + comando);
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 //(<HTMLInputElement>document.getElementById("arrayTablero")).innerHTML = xhttp.responseText;

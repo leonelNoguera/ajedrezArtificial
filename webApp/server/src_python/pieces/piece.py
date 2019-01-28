@@ -1,12 +1,12 @@
-from clases_py.casillero import Casillero
+from src_python.square import Square
 
 # Clase Pieza.
-class Pieza(Casillero):
-	__tipo = "p"
+class Piece(Square):
+	__piece_type = "p"
 	
 	@property
-	def tipo(self):
-		return self.__tipo
+	def piece_type(self):
+		return self.__piece_type
 	
 	@property
 	def color(self):
@@ -25,7 +25,7 @@ class Pieza(Casillero):
 		self.__idPieza = value
 	
 	def __repr__(self):
-		return self.tipo + self.color
+		return self.piece_type + self.color
 
 	def __init__(self):
 		super().__init__()

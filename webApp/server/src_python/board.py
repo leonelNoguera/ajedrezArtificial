@@ -1,15 +1,15 @@
 import random, os
-from clases_py.reglamento import Reglamento
-from clases_py.piezas.pawn import Pawn
-from clases_py.piezas.king import King
-from clases_py.piezas.queen import Queen
-from clases_py.piezas.bishop import Bishop
-from clases_py.piezas.knight import Knight
-from clases_py.piezas.rook import Rook
-from clases_py.casillero import Casillero
+from src_python.reglamento import Reglamento
+from src_python.pieces.pawn import Pawn
+from src_python.pieces.king import King
+from src_python.pieces.queen import Queen
+from src_python.pieces.bishop import Bishop
+from src_python.pieces.knight import Knight
+from src_python.pieces.rook import Rook
+from src_python.square import Square
 
-class Tablero:
-	matrizTablero = []
+class Board:
+	matrizBoard = []
 	__matrizPiezas = []
 	reglamento = Reglamento()
 
@@ -22,14 +22,14 @@ class Tablero:
 		print("Recibido en moverOD: " + od)
 
 		if ((od[0]) + (od[1]) != (od[3]) + (od[4])): # Si origen == destino no hace cambios. El castling envía "00 00".
-			self.matrizTablero[
+			self.matrizBoard[
 				int(od[3])
 				][
 					int(od[4])
-					] = self.matrizTablero[int(od[0])][int(od[1])]
-			self.matrizTablero[int(od[0])][int(od[1])] = Casillero()
+					] = self.matrizBoard[int(od[0])][int(od[1])]
+			self.matrizBoard[int(od[0])][int(od[1])] = Square()
 		
-		self.pintarCasilleros()
+		self.pintarSquares()
 	
 	@classmethod
 	def partida(self, movimientos):
@@ -41,9 +41,9 @@ class Tablero:
 	@classmethod
 	def mover(self, movimiento):
 		print('Line 43: El turno actual es: ' + self.reglamento.turno)
-		#__retornoReglamento = self.__reglamento.mover(__movimiento, __jugador, self.matrizTablero, self.__reglamento.turno)
+		#__retornoReglamento = self.__reglamento.mover(__movimiento, __jugador, self.matrizBoard, self.__reglamento.turno)
 		retornoReglamento = self.reglamento.mover(
-			movimiento, self.reglamento.turno, self.matrizTablero
+			movimiento, self.reglamento.turno, self.matrizBoard
 			)
 		print("El reglamento retornó: " + str(retornoReglamento))
 		if type(retornoReglamento) == type(str()):
@@ -76,29 +76,29 @@ class Tablero:
 				#input("Line 62.\nid =" + str(self.__matrizPiezas[i][j].id))
 				
 	@classmethod
-	def pintarCasilleros(self):
-		__b = Casillero()
-		__b.colorCasillero = "w"
-		__n = Casillero()
-		__n.colorCasillero = "b"
+	def pintarSquares(self):
+		__b = Square()
+		__b.colorSquare = "w"
+		__n = Square()
+		__n.colorSquare = "b"
 		
 		for i in range(8):
 			for j in range(8):
 				if i % 2:
 					if j % 2:
-						self.matrizTablero[i][j].colorCasillero = "w"
+						self.matrizBoard[i][j].colorSquare = "w"
 					else:
-						self.matrizTablero[i][j].colorCasillero = "b"
+						self.matrizBoard[i][j].colorSquare = "b"
 				else:
 					if j % 2:
-						self.matrizTablero[i][j].colorCasillero = "b"
+						self.matrizBoard[i][j].colorSquare = "b"
 					else:
-						self.matrizTablero[i][j].colorCasillero = "w"
+						self.matrizBoard[i][j].colorSquare = "w"
 	
 	@classmethod
 	def tableroToFile(self):
 		f = open("tablero.txt", 'w');
-		f.write(str(self.matrizTablero));
+		f.write(str(self.matrizBoard));
 		f.close()
 	
 	@classmethod
@@ -109,28 +109,28 @@ class Tablero:
 
 	@classmethod
 	def colocarPiezas(self):
-		__b = Casillero()
-		__b.colorCasillero = "w"
-		__n = Casillero()
-		__n.colorCasillero = "b"
+		__b = Square()
+		__b.colorSquare = "w"
+		__n = Square()
+		__n.colorSquare = "b"
 		
 		for i in range(8):
-			self.matrizTablero.append([
-				Casillero(), Casillero(), Casillero(), Casillero(), 
-				Casillero(), Casillero(), Casillero(), Casillero(),
+			self.matrizBoard.append([
+				Square(), Square(), Square(), Square(), 
+				Square(), Square(), Square(), Square(),
 				])
 				
 		for i in range(8):
 			#Coordenadas en notación: [a-h][8-1]
 			# Blancas: 7 y 8
 			# Negras: 1 y 2
-			# El rey en el casillero de su color.
-			self.matrizTablero[0][i] = self.__matrizPiezas[0][i]
-			self.matrizTablero[1][i] = self.__matrizPiezas[1][i]
-			self.matrizTablero[6][i] = self.__matrizPiezas[2][i]
-			self.matrizTablero[7][i] = self.__matrizPiezas[3][i]
+			# El rey en el Square de su color.
+			self.matrizBoard[0][i] = self.__matrizPiezas[0][i]
+			self.matrizBoard[1][i] = self.__matrizPiezas[1][i]
+			self.matrizBoard[6][i] = self.__matrizPiezas[2][i]
+			self.matrizBoard[7][i] = self.__matrizPiezas[3][i]
 
-		self.pintarCasilleros();
+		self.pintarSquares();
 		#self.tableroToFile();
 			
 	@classmethod
@@ -186,7 +186,7 @@ class Tablero:
 
 		for i in range(8):		
 			for j in range(8):
-				__elementoAux = self.matrizTablero[i][j]
+				__elementoAux = self.matrizBoard[i][j]
 				retorno += str(__elementoAux) + "-"
 			retorno += "\n"
 		return retorno
@@ -194,7 +194,7 @@ class Tablero:
 	@classmethod
 	def reiniciar(self):
 		print('Line 196 (tablero.py): En reiniciar()')
-		self.matrizTablero = []
+		self.matrizBoard = []
 		self.__matrizPiezas = []
 		self.reglamento.turno = 'w'
 

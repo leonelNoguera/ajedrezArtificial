@@ -32,7 +32,7 @@ class QuerySender
 		let xhttp : XMLHttpRequest = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:8080/", true);
         xhttp.setRequestHeader("content-type","application/x-www-form-urlencoded");
-        xhttp.send("comando=" + comando);
+        xhttp.send("command=" + comando);
 
 
         xhttp.onreadystatechange = () =>
